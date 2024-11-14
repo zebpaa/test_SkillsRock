@@ -84,7 +84,3 @@ console.log(library.listAvailableBooks()); // Список доступных к
 
 console.log(library.returnBook('123456789')); // Вы вернули книгу: "1984"
 console.log(library.listAvailableBooks()); // Список доступных книг после возврата
-
-// Запустить можно в терминале
-// cd task_4
-// node library.js

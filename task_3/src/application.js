@@ -96,7 +96,6 @@ const render = (state, elements) => {
       break;
     case 'success':
       renderUsers(state, elements);
-      
       break;
     case 'error':
       renderError();
@@ -110,14 +109,10 @@ const render = (state, elements) => {
 };
   
 const app = async () => {
-  // const result = await fetchRandomUsers();
-  // console.log('result: ', result);
-  
   elements.btnLoad.addEventListener('click', async () => {
     state.status = 'loading';
     render(state, elements);
     
-    console.log(state);
     try {
       const result = await fetchRandomUsers();
       state.status = 'success';
@@ -126,14 +121,10 @@ const app = async () => {
     } catch(err) {
       state.status = 'error';
       render(state, elements);
-      console.log('Не удалось загрузить пользователей');
       throw new Error(err);
     }
-
-    console.log(state);
   });
 
-  console.log(state);
   render(state, elements);
 };
 

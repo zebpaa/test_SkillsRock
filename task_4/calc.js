@@ -40,7 +40,3 @@ console.log(calc.subtract(2, 4));
 console.log(calc.multiply(2, 4));
 console.log(calc.divide(2, 4));
 console.log(calc.divide(2, 0));
-
-// Запустить можно в терминале
-// cd task_4
-// node calc.js
