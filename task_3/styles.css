@@ -67,3 +67,22 @@ table {
 	margin-bottom: 5px;
 	align-items: center;
 }
+
+#feedback {
+	margin-bottom: 20px;
+}
+
+.container-slider {
+	max-width: 540px;
+	margin: 20px auto;
+	padding: 0 20px;
+}
+
+.image {
+	display: none;	
+}
+
+.active {
+	display: block;
+	margin: 10px 0px;
+}

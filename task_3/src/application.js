@@ -8,7 +8,6 @@ const state = {
 const elements = {
   container: document.querySelector('.container'),
   btnLoad: document.getElementById('btnLoad'),
-  list: document.getElementById('list'),
 };
 
 const fetchRandomUsers = async () => {
@@ -36,19 +35,29 @@ const fetchRandomUsers = async () => {
 }
 
 const loadHandler = () => {
-  const p = document.createElement('p');
-  p.id = 'feedback';
-  const textNode = document.createTextNode('Загрузка...');
-  p.append(textNode);
-  elements.container.append(p);
-  return p;
+  const feedback = document.getElementById('feedback');
+  if(!feedback) {
+    const p = document.createElement('p');
+    p.id = 'feedback';
+    const textNode = document.createTextNode('Загрузка...');
+    p.append(textNode);
+    elements.container.append(p);
+  } else {
+    feedback.textContent = 'Загрузка...';
+  }
 }
 
 const renderUsers = (state, elements) => {
+  if (!document.getElementById('list')) {
+    const list = document.createElement('ul');
+    list.id = 'list';
+    elements.container.append(list);
+  }
+  
   const feedback = document.getElementById('feedback');
-  feedback.remove();
+  feedback.textContent = 'Отлично! Список вывелся';
 
-  return state.users.map(({ name, email, photo, id}) => {
+  const usersElements = state.users.map(({ name, email, photo, id}) => {
     const liEl = document.createElement('li');
     const pContainer = document.createElement('div');
     const pName = document.createElement('p');
@@ -70,15 +79,14 @@ const renderUsers = (state, elements) => {
     img.src = photo.thumbnail;
     liEl.append(img);
 
-    elements.list.append(liEl);
+    return liEl;
   });
+  list.replaceChildren(...usersElements);
 };
 
 const renderError = () => {
   const feedback = document.getElementById('feedback');
-  console.log('feedback: ', feedback);
   feedback.textContent = 'Не удалось загрузить пользователей';
-  return feedback;
 };
 
 const render = (state, elements) => {
@@ -98,11 +106,7 @@ const render = (state, elements) => {
         break;
       default:
         console.log(`state.status: ${state.status}. Что-то не так!`);
-    }
-
-//   return state.users.map((user) => {
-//     
-//   });
+    };
 };
   
 const app = async () => {
@@ -118,14 +122,15 @@ const app = async () => {
       const result = await fetchRandomUsers();
       state.status = 'success';
       state.users = result;
+      render(state, elements);
     } catch(err) {
       state.status = 'error';
+      render(state, elements);
       console.log('Не удалось загрузить пользователей');
       throw new Error(err);
     }
 
     console.log(state);
-    render(state, elements);
   });
 
   console.log(state);
